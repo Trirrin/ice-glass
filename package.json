@@ -1,6 +1,6 @@
 {
   "name": "ice-glass",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Refractive frosted-glass UI — SVG displacement + blur + rim, vanilla/React/Vue.",
   "author": "Trirrin <2628883576@qq.com> (https://github.com/Trirrin)",
   "license": "MIT",

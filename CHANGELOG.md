@@ -4,6 +4,32 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/) loosely, and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## 0.1.2 — 2026-04-19
+
+### Added
+
+- **Vue component exposes the root `<div>` as `el`.** `cardRef.value.el`
+  now returns `HTMLDivElement | null` — the React binding already
+  exposed the element via `forwardRef`.
+- **Publish provenance.** Releases are built and signed on GitHub
+  Actions via OIDC, so npmjs.com displays a "Built and signed on
+  GitHub Actions" attestation on the package page.
+- **Simplified Chinese README** (`README.zh-CN.md`) linked from the
+  English README.
+- **CHANGELOG.md** (this file) linked from both READMEs.
+- README: DOM-output section, per-layer default values, `Scrollable
+  surfaces` recipe, `Known limitations` section (edge brightness
+  tradeoff, Firefox, old Safari), and a warning against using
+  `ice-glass/auto` inside framework apps.
+
+### Changed
+
+- `package.json`: shorter `description` (so npmjs.com stops
+  truncating), extended `keywords` (`frosted-glass`, `css-filter`,
+  `zero-deps`), declared `engines.node >=18`, and dropped `src/`
+  from `files` — only `dist/`, READMEs, CHANGELOG, and LICENSE
+  ship now.
+
 ## 0.1.1 — 2026-04-19
 
 ### Fixed
