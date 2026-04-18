@@ -1,21 +1,24 @@
 {
   "name": "ice-glass",
   "version": "0.1.1",
-  "description": "A refractive ice-glass UI effect built from an SVG displacement filter, a backdrop blur and a brightened edge mask — with vanilla, React and Vue bindings.",
+  "description": "Refractive frosted-glass UI — SVG displacement + blur + rim, vanilla/React/Vue.",
   "author": "Trirrin <xrain6819@hotmail.com> (https://github.com/Trirrin)",
   "license": "MIT",
   "keywords": [
     "ui",
     "glass",
     "glassmorphism",
+    "frosted-glass",
     "ice-glass",
     "refraction",
     "backdrop-filter",
+    "css-filter",
     "svg-filter",
     "displacement",
     "react",
     "vue",
-    "component"
+    "component",
+    "zero-deps"
   ],
   "repository": {
     "type": "git",
@@ -33,8 +36,9 @@
   ],
   "files": [
     "dist",
-    "src",
     "README.md",
+    "README.zh-CN.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "main": "./dist/index.cjs",
@@ -69,6 +73,9 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "peerDependencies": {
     "react": ">=17",
