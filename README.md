@@ -6,7 +6,7 @@ packaged as a tiny library with **vanilla**, **React** and **Vue** bindings.
 
 **[Live demo →](https://trirrin.github.io/ice-glass/)**
 
-![ice-glass preview](https://trirrin.github.io/ice-glass/preview.png)
+![ice-glass preview](./preview.png)
 
 ## Why
 
