@@ -1,5 +1,5 @@
 {
-  "name": "ice-glass",
+  "name": "@trirrin/ice-glass",
   "version": "0.1.0",
   "description": "A refractive ice-glass UI effect built from an SVG displacement filter, a backdrop blur and a brightened edge mask — with vanilla, React and Vue bindings.",
   "author": "Trirrin <xrain6819@hotmail.com> (https://github.com/Trirrin)",
