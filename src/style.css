@@ -1,0 +1,55 @@
+/*
+ * ice-glass — shared styles
+ *
+ * The SVG filter referenced by url(#ice-lens) must be present in the
+ * same document. Use the `observe()` (vanilla) or the <IceGlass />
+ * component (React / Vue) — both inject the filter automatically.
+ */
+
+.ice-glass {
+  position: relative;
+  overflow: hidden;
+}
+
+.ice-glass > .ig-distort {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  backdrop-filter: url(#ice-lens);
+  -webkit-backdrop-filter: url(#ice-lens);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ice-glass > .ig-blur {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px) saturate(170%);
+  -webkit-backdrop-filter: blur(12px) saturate(170%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ice-glass > .ig-content {
+  position: relative;
+  z-index: 2;
+}
+
+.ice-glass > .ig-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  padding: 1.5px;
+  box-sizing: border-box;
+  backdrop-filter: brightness(1.5) saturate(1.25);
+  -webkit-backdrop-filter: brightness(1.5) saturate(1.25);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
