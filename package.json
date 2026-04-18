@@ -1,6 +1,6 @@
 {
   "name": "ice-glass",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A refractive ice-glass UI effect built from an SVG displacement filter, a backdrop blur and a brightened edge mask — with vanilla, React and Vue bindings.",
   "author": "Trirrin <xrain6819@hotmail.com> (https://github.com/Trirrin)",
   "license": "MIT",
@@ -75,8 +75,12 @@
     "vue": ">=3"
   },
   "peerDependenciesMeta": {
-    "react": { "optional": true },
-    "vue": { "optional": true }
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
