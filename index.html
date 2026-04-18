@@ -205,6 +205,20 @@
     border-radius: 50%;
   }
 
+  /* Draggable affordance */
+  .draggable {
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: box-shadow 0.25s ease;
+  }
+  .draggable.is-dragging {
+    cursor: grabbing;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    z-index: 5;
+  }
+
   .gh-link {
     position: absolute;
     top: 24px; right: 28px;
@@ -219,6 +233,29 @@
     z-index: 10;
   }
   .gh-link:hover { background: rgba(0,0,0,0.55); }
+
+  .drag-hint {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  .drag-hint.hidden {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
 </style>
 
 <div class="demo-bg">
@@ -235,16 +272,90 @@
 <div class="demo-stage">
 
   <!-- All you need is the class. -->
-  <div class="ice-glass demo-pill">Ice Glass · reusable component</div>
+  <div class="ice-glass demo-pill draggable">Ice Glass · reusable component</div>
 
-  <div class="ice-glass demo-card">
+  <div class="ice-glass demo-card draggable">
     <h2>One class to rule them all</h2>
     <p>Add <code>class="ice-glass"</code> to any element. The runtime rewrites it into four layers — distort, blur, content, edge highlight — and a <code>MutationObserver</code> hydrates elements you add later. Ships with React and Vue bindings too.</p>
   </div>
 
-  <div class="ice-glass demo-orb"></div>
+  <div class="ice-glass demo-orb draggable"></div>
 
 </div>
+
+<div class="drag-hint" id="drag-hint">drag the glass around ↔</div>
+
+<script>
+  (function () {
+    const hint = document.getElementById('drag-hint');
+    let hintHidden = false;
+
+    function detachPositioning(el) {
+      // Convert percentage + transform positioning into absolute pixel
+      // coordinates, so dragging doesn't fight the original CSS rules.
+      if (el.dataset.dragBound === '1') return;
+      const rect = el.getBoundingClientRect();
+      el.style.left = rect.left + 'px';
+      el.style.top = rect.top + 'px';
+      el.style.right = 'auto';
+      el.style.bottom = 'auto';
+      el.style.transform = 'none';
+      el.dataset.dragBound = '1';
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function makeDraggable(el) {
+      let offsetX = 0;
+      let offsetY = 0;
+
+      el.addEventListener('pointerdown', (e) => {
+        if (e.button !== undefined && e.button !== 0) return;
+        detachPositioning(el);
+        el.setPointerCapture(e.pointerId);
+        el.classList.add('is-dragging');
+
+        const rect = el.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        e.preventDefault();
+      });
+
+      el.addEventListener('pointermove', (e) => {
+        if (!el.classList.contains('is-dragging')) return;
+        const margin = 24; // keep this much of the element on-screen
+        const w = el.offsetWidth;
+        const h = el.offsetHeight;
+        const minX = margin - w;
+        const minY = margin - h;
+        const maxX = window.innerWidth  - margin;
+        const maxY = window.innerHeight - margin;
+
+        el.style.left = clamp(e.clientX - offsetX, minX, maxX) + 'px';
+        el.style.top  = clamp(e.clientY - offsetY, minY, maxY) + 'px';
+
+        if (!hintHidden && hint) {
+          hint.classList.add('hidden');
+          hintHidden = true;
+        }
+      });
+
+      function endDrag(e) {
+        if (!el.classList.contains('is-dragging')) return;
+        el.classList.remove('is-dragging');
+        if (el.hasPointerCapture?.(e.pointerId)) {
+          el.releasePointerCapture(e.pointerId);
+        }
+      }
+      el.addEventListener('pointerup', endDrag);
+      el.addEventListener('pointercancel', endDrag);
+    }
+
+    document.querySelectorAll('.draggable').forEach(makeDraggable);
+  })();
+</script>
 
 </body>
 </html>
