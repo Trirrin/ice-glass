@@ -157,12 +157,20 @@
   }
 
   /* Colorful moving blocks that sit behind the glass */
-  .demo-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+  .demo-bg {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.3s ease;
+  }
   .demo-bg > div {
     position: absolute;
     will-change: transform;
     animation: drift 20s linear infinite;
+    transition: opacity 0.3s ease;
   }
+  .demo-bg.has-custom > div { opacity: 0; pointer-events: none; }
   .b1 { width: 180px; height: 180px; background: #ff3d81; top:  6%; left:  4%; }
   .b2 { width: 240px; height: 140px; background: #2e8bff; top: 12%; left: 58%; animation-duration: 24s; }
   .b3 { width: 160px; height: 260px; background: #9b4dff; top: 48%; left: 82%; animation-direction: reverse; }
@@ -234,6 +242,33 @@
   }
   .gh-link:hover { background: rgba(0,0,0,0.55); }
 
+  /* Background-upload controls, mirror of .gh-link */
+  .bg-controls {
+    position: absolute;
+    top: 24px; left: 28px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+  .bg-controls button,
+  .bg-controls label {
+    color: #fff;
+    font: inherit;
+    font-size: 12px;
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+  .bg-controls button:hover,
+  .bg-controls label:hover { background: rgba(0,0,0,0.55); }
+  .bg-controls input[type="file"] { display: none; }
+  .bg-controls .bg-reset { display: none; }
+  .bg-controls.has-custom .bg-reset { display: inline-block; }
+
   .drag-hint {
     position: fixed;
     bottom: 22px;
@@ -265,6 +300,12 @@
   <div class="b4"></div>
   <div class="b5"></div>
   <div class="b6"></div>
+</div>
+
+<div class="bg-controls" id="bg-controls">
+  <label for="bg-upload">Upload background ↑</label>
+  <input type="file" id="bg-upload" accept="image/*">
+  <button type="button" class="bg-reset" id="bg-reset">Reset</button>
 </div>
 
 <a class="gh-link" href="https://github.com/Trirrin/ice-glass" target="_blank" rel="noopener">GitHub ↗</a>
@@ -354,6 +395,35 @@
     }
 
     document.querySelectorAll('.draggable').forEach(makeDraggable);
+  })();
+</script>
+
+<script>
+  (function () {
+    const bg       = document.querySelector('.demo-bg');
+    const controls = document.getElementById('bg-controls');
+    const input    = document.getElementById('bg-upload');
+    const reset    = document.getElementById('bg-reset');
+    let currentUrl = null;
+
+    function setCustom(url) {
+      if (currentUrl) URL.revokeObjectURL(currentUrl);
+      currentUrl = url;
+      bg.style.backgroundImage = url ? `url("${url}")` : '';
+      bg.classList.toggle('has-custom', !!url);
+      controls.classList.toggle('has-custom', !!url);
+    }
+
+    input.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      setCustom(URL.createObjectURL(file));
+    });
+
+    reset.addEventListener('click', () => {
+      setCustom(null);
+      input.value = '';
+    });
   })();
 </script>
 
