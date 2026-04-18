@@ -45,8 +45,8 @@
   z-index: 3;
   padding: 1.5px;
   box-sizing: border-box;
-  backdrop-filter: brightness(1.5) saturate(1.25);
-  -webkit-backdrop-filter: brightness(1.5) saturate(1.25);
+  backdrop-filter: saturate(1.8) contrast(1.2);
+  -webkit-backdrop-filter: saturate(1.8) contrast(1.2);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);

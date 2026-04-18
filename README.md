@@ -19,7 +19,7 @@ a bright line along the edge. `ice-glass` does all three:
 | `ig-distort` | `backdrop-filter: url(#ice-lens)` — SVG displacement    |
 | `ig-blur`    | `backdrop-filter: blur(12px) saturate(170%)` + tint     |
 | `ig-content` | Your children — unaffected by any filter                |
-| `ig-edge`    | Masked ring with `brightness(1.5)` — the refraction rim |
+| `ig-edge`    | Masked ring with `saturate(1.8) contrast(1.2)` — hue-preserving rim |
 
 Compatibility: **Chrome 76+, Safari 17.4+, Edge**. Firefox has partial
 support for `backdrop-filter: url()` — it degrades to the plain blur layer.
@@ -127,9 +127,9 @@ The four layers respond to normal CSS, so override freely.
 /* Stronger refraction — tweak the displacement scale */
 /* (override the filter definition or duplicate #ice-lens with a new id) */
 
-/* Brighter rim */
+/* Richer rim color — pushes saturation + contrast without hue drift */
 .my-card.ice-glass > .ig-edge {
-  backdrop-filter: brightness(2) saturate(1.4);
+  backdrop-filter: saturate(2.2) contrast(1.3);
 }
 ```
 
