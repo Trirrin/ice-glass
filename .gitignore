@@ -7,3 +7,6 @@ dist/
 coverage/
 .cache/
 .turbo/
+
+# npm auth token — never commit
+.npmrc

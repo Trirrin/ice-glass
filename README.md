@@ -27,14 +27,14 @@ support for `backdrop-filter: url()` — it degrades to the plain blur layer.
 ## Install
 
 ```bash
-npm install @trirrin/ice-glass
-# or: pnpm add @trirrin/ice-glass / yarn add @trirrin/ice-glass / bun add @trirrin/ice-glass
+npm install ice-glass
+# or: pnpm add ice-glass / yarn add ice-glass / bun add ice-glass
 ```
 
 The stylesheet is shipped separately so you can load it once per app:
 
 ```ts
-import '@trirrin/ice-glass/style.css';
+import 'ice-glass/style.css';
 ```
 
 ---
@@ -44,9 +44,9 @@ import '@trirrin/ice-glass/style.css';
 Zero setup, drop-in:
 
 ```html
-<link rel="stylesheet" href="node_modules/@trirrin/ice-glass/dist/style.css">
+<link rel="stylesheet" href="node_modules/ice-glass/dist/style.css">
 <script type="module">
-  import '@trirrin/ice-glass/auto';   // auto-injects SVG filter + observes the DOM
+  import 'ice-glass/auto';   // auto-injects SVG filter + observes the DOM
 </script>
 
 <div class="ice-glass" style="border-radius:24px; padding:24px;">
@@ -57,7 +57,7 @@ Zero setup, drop-in:
 Need explicit control? Import the core API instead:
 
 ```ts
-import { observe, hydrate, injectSvgFilter } from '@trirrin/ice-glass';
+import { observe, hydrate, injectSvgFilter } from 'ice-glass';
 
 // One-liner: inject filter + hydrate existing nodes + watch future ones
 const dispose = observe();
@@ -73,8 +73,8 @@ dispose();
 ## React
 
 ```tsx
-import { IceGlass } from '@trirrin/ice-glass/react';
-import '@trirrin/ice-glass/style.css';
+import { IceGlass } from 'ice-glass/react';
+import 'ice-glass/style.css';
 
 export function Card() {
   return (
@@ -91,8 +91,8 @@ Works with any standard `div` attribute, `ref`, event handlers, etc.
 
 ```vue
 <script setup>
-import { IceGlass } from '@trirrin/ice-glass/vue';
-import '@trirrin/ice-glass/style.css';
+import { IceGlass } from 'ice-glass/vue';
+import 'ice-glass/style.css';
 </script>
 
 <template>
@@ -106,7 +106,7 @@ Or register it globally:
 
 ```ts
 import { createApp } from 'vue';
-import { IceGlass } from '@trirrin/ice-glass/vue';
+import { IceGlass } from 'ice-glass/vue';
 
 createApp(App).component('IceGlass', IceGlass).mount('#app');
 ```
@@ -141,7 +141,7 @@ via `border-radius: inherit`, so you only set it once.
 ## API reference
 
 ```ts
-// @trirrin/ice-glass
+// ice-glass
 export function injectSvgFilter(): void;
 export function hydrate(el: HTMLElement): void;
 export function scan(root: ParentNode): void;
@@ -149,12 +149,12 @@ export function observe(options?: { root?: Node }): () => void;
 export const SVG_HOST_ID: string;
 export const FILTER_ID: string;
 
-// @trirrin/ice-glass/react
+// ice-glass/react
 export const IceGlass: React.ForwardRefExoticComponent<
   React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>
 >;
 
-// @trirrin/ice-glass/vue
+// ice-glass/vue
 export const IceGlass: import('vue').DefineComponent<{}, () => VNode, ...>;
 ```
 
