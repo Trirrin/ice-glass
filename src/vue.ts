@@ -1,4 +1,4 @@
-import { defineComponent, h, onMounted } from 'vue';
+import { defineComponent, h, onMounted, ref } from 'vue';
 import { injectSvgFilter } from './index';
 
 /**
@@ -12,18 +12,26 @@ import { injectSvgFilter } from './index';
  * Vue's default `inheritAttrs` merges class / style / listeners onto the
  * root element. The root carries `data-ice-ready="1"` so the optional
  * `ice-glass/auto` runtime observer will never double-hydrate it.
+ *
+ * The underlying `<div class="ice-glass">` is exposed as `el` on the
+ * component instance, so `iceGlassRef.value.el` returns the DOM node
+ * (useful for focus, scroll, measuring, etc.).
  */
 export const IceGlass = defineComponent({
   name: 'IceGlass',
-  setup(_props, { slots }) {
+  setup(_props, { slots, expose }) {
+    const el = ref<HTMLDivElement | null>(null);
+
     onMounted(() => {
       injectSvgFilter();
     });
 
+    expose({ el });
+
     return () =>
       h(
         'div',
-        { class: 'ice-glass', 'data-ice-ready': '1' },
+        { class: 'ice-glass', 'data-ice-ready': '1', ref: el },
         [
           h('div', { class: 'ig-distort', 'aria-hidden': 'true' }),
           h('div', { class: 'ig-blur', 'aria-hidden': 'true' }),
